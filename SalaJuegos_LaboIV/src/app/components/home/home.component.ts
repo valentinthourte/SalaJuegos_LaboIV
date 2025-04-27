@@ -1,39 +1,39 @@
-import { Component, OnInit } from '@angular/core';
-import { createClient } from '@supabase/supabase-js';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoginService } from '../../services/login/login.service';
 import { UserData } from '../../models/user-data';
-import { environment } from '../../../environments/environment';
-
-const supabase = createClient(environment.apiUrl, environment.publicAnonKey);
 
 @Component({
   selector: 'app-home',
-  standalone: true,
   imports: [],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit {
-
-  usersdata: UserData[] = [];
+export class HomeComponent implements OnInit, AfterViewInit {
+  user: UserData;
+  constructor(private router: Router, private loginService: LoginService) {
+    this.user = {
+      id: 0,
+      authId: "",
+      created_at: "",
+      email: "",
+      name: ""
+    }
+  }
+  ngAfterViewInit(): void {
+    if (this.loginService.IsLoggedIn() == false) {
+      this.router.navigate(['/login'])
+    }
+  }
 
   ngOnInit(): void {
-    this.getUserData();
-  }
-
-  getUserData() {
-    supabase.from('users-data').select('*').then(({ data, error }) => {
-      if (error) {
-        console.error('Error:', error.message);
-      } else {
-        console.log('Data:', data);
-        this.usersdata = data;
-      }
+    if (this.loginService.IsLoggedIn() == false) {
+      this.router.navigate(['/login'])
     }
-    );
-  }
-
-  getAvatarUrl(avatarUrl: string) {
-    return supabase.storage.from('images').getPublicUrl(avatarUrl).data.publicUrl;
+    else {
+      this.user = this.loginService.getUser();
+    }
+    
   }
 
 }

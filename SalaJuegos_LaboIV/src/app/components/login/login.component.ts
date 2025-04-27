@@ -1,46 +1,51 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { createClient } from '@supabase/supabase-js'
-import { environment } from '../../../environments/environment';
+import { Router, RouterModule } from '@angular/router';
+import { StorageService } from '../../services/storage/storage.service';
 import { LoginService } from '../../services/login/login.service';
 
-const supabase = createClient(environment.apiUrl, environment.publicAnonKey)
-
 @Component({
-  standalone: true,
-  imports: [FormsModule, RouterLink],
   selector: 'app-login',
+  imports: [FormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent implements AfterViewInit {
+
+protected email: string | undefined;
+protected password: string | undefined;
+protected loginFailed: boolean = false;
+constructor(private router: Router, private storageService: StorageService, private loginService: LoginService ) {
   
-  username: string = "";
-  password: string = "";
-  failedLogin: boolean = false;
+}
   
-  constructor(private loginService: LoginService, private router: Router) {
-    
+ngAfterViewInit(): void {
+    if (this.loginService.IsLoggedIn()){
+      this.router.navigate(['/home']);
+    }
   }
-  
-  
+
   login() {
-    this.failedLogin = false;
-
-    this.loginService.login(this.username, this.password).then(success => {
-      if (success) {
-        console.log("login exitoso, redireccionando a home");
-        this.router.navigate(['home']);
-      } else {
-        this.failedLogin = true;
-      }
-    });
+    this.loginFailed = false;
+    if (this.email != undefined && this.password != undefined) {
+      this.loginService.login(this.email, this.password).then((result) => {
+        if (result) {
+          console.log("Login exitoso!");
+          this.router.navigate(["/home"]);
+        }
+        else {
+          this.loginFailed = true;
+        }
+      });
+      
+    }
   }
 
-  onAutocompletar() {
-    this.username = "cekegey447@hedotu.com";
+  onAutocomplete() {
+    this.email = "cekegey447@hedotu.com";
     this.password = "123456";
   }
-
+  registrarse() {  
+      this.router.navigate(["/registrarse"])
+  }
 }

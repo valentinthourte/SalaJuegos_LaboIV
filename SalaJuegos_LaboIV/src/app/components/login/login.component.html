@@ -1,21 +1,24 @@
-<div class="login-container">
-    <h3>Login</h3>
-    <input type="text" placeholder="Username" [(ngModel)]="username" class="login-input" />
-
-    <input type="password" placeholder="Password" [(ngModel)]="password" class="login-input" />
-
-    <button (click)="login()" class="login-button">
-        login
-    </button>
-
-    <button name="autocompletar" (click)="onAutocompletar()" class="login-button">Autocompletar</button>
-
-    <div class="register-link-container">
-        <a routerLink="../register" class="register-link">Register</a>
+<div class="container d-flex flex-column justify-content-center">
+    <div class="d-flex p-2 justify-content-center">
+        <input type="text" name="email" id="email" placeholder="Email" [(ngModel)]="email" required>
     </div>
-    @if (this.failedLogin) {
-        <div class="login-error">
-            <p>El usuario o la contraseña no son correctos. </p>
+    <div class="d-flex p-2 justify-content-center">
+        <input type="password" name="pass" id="password" placeholder="Contraseña" [(ngModel)]="password" required>
+    </div>
+    <div class="d-flex p-2 justify-content-center">
+        <button (click)="login()">Ingresar</button>
+        <button (click)="onAutocomplete()">Auto completar</button>
+    </div>
+
+    <div class="d-flex p-2 justify-content-center">
+        <button (click)="registrarse()">Registrarse</button>
+    </div>
+    @if(this.loginFailed) {
+        <div class="container d-flex cartel-error w-50 align-items-center">
+            <p>El usuario o la clave son incorrectos.</p>
         </div>
     }
 </div>
+
+
+<router-outlet></router-outlet>
