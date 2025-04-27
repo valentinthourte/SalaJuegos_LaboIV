@@ -1,0 +1,9 @@
+<nav>
+    <button name="home" (click)="onClickMenuOption($event)">Home</button>
+    <button name="quien-soy" (click)="onClickMenuOption($event)" >Quien soy</button>
+    @if(this.isLoggedIn())
+    {
+        <button name="logout" (click)="onLogout()" >Log out</button>
+    }
+</nav>
+<router-outlet />
