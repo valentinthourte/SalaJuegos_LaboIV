@@ -1,20 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
+import { StorageService } from './services/storage/storage.service';
 import { LoginService } from './services/login/login.service';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'Sala de Juegos Valentin Thourte - Laboratorio IV';
+  title = 'SalaJuegos_LaboIV';
   constructor(private router: Router, private loginService: LoginService) {
     
   }
-
+  
   onClickMenuOption(event: Event) {
     if (this.loginService.IsLoggedIn())
       {
@@ -31,5 +31,6 @@ export class AppComponent {
 
   onLogout() {
     this.loginService.logout();
+    this.router.navigate(["login"])
   }
 }
