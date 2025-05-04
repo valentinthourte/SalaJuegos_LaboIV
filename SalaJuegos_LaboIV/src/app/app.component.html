@@ -1,10 +1,22 @@
-<nav>
-    <button name="home" (click)="onClickMenuOption($event)">Home</button>
-    <button name="quien-soy" (click)="onClickMenuOption($event)" >Quien soy</button>
-    @if(this.isLoggedIn())
-    {
-        <button name="logout" (click)="onLogout()" >Log out</button>
-    }
-</nav>
-
+<nav class="navbar navbar-expand-lg px-3">
+    <div class="d-flex justify-content-between w-100 align-items-center nav-container">
+      <div class="d-flex gap-2">
+        <button name="home" (click)="onClickMenuOption($event)" class="btn btn-outline-primary">Home</button>
+        <button name="quien-soy" (click)="onClickMenuOption($event)" class="btn btn-outline-primary">Quien soy</button>
+        <button name="chat" (click)="onClickMenuOption($event)" class="btn btn-outline-primary">Chat</button>
+        @if (this.isLoggedIn())
+        {
+          <button name="logout" (click)="onLogout()" class="btn btn-outline-danger">Log out</button>
+        }
+      </div>
+  
+      @if (this.isLoggedIn())
+      {
+        <div class="d-flex align-items-center">
+          <p class="mb-0">{{ this.getUsuario() }}</p>
+        </div>
+      }
+    </div>
+  </nav>
+  
 <router-outlet></router-outlet>

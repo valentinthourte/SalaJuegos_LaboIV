@@ -1,4 +1,4 @@
-<div class="container d-flex flex-column justify-content-center">
+<div class="container d-flex flex-column justify-content-center tarjeta-login">
     <div class="d-flex p-2 justify-content-center">
         <input type="text" name="email" id="email" placeholder="Email" [(ngModel)]="email" required>
     </div>
@@ -6,16 +6,18 @@
         <input type="password" name="pass" id="password" placeholder="Contraseña" [(ngModel)]="password" required>
     </div>
     <div class="d-flex p-2 justify-content-center">
-        <button (click)="login()">Ingresar</button>
-        <button (click)="onAutocomplete()">Auto completar</button>
+        <button (click)="login()" style="margin-right: 2px;">Ingresar</button>
+    </div>
+    <div class="d-flex p-2 justify-content-center">
+        <button (click)="onAutocomplete()" style="margin-left: 2px;">Auto completar</button>
     </div>
 
     <div class="d-flex p-2 justify-content-center">
         <button (click)="registrarse()">Registrarse</button>
     </div>
     @if(this.loginFailed) {
-        <div class="container d-flex cartel-error w-50 align-items-center">
-            <p>El usuario o la clave son incorrectos.</p>
+        <div class="container d-flex cartel-error justify-content-center align-items-center">
+            <p>{{ this.errorMsg }}</p>
         </div>
     }
 </div>

@@ -15,6 +15,7 @@ export class LoginComponent implements AfterViewInit {
 protected email: string | undefined;
 protected password: string | undefined;
 protected loginFailed: boolean = false;
+protected errorMsg: string = "";
 constructor(private router: Router, private storageService: StorageService, private loginService: LoginService ) {
   
 }
@@ -28,16 +29,28 @@ ngAfterViewInit(): void {
   login() {
     this.loginFailed = false;
     if (this.email != undefined && this.password != undefined) {
+      this.loginService.login(this.email, this.password)
+      .then(success => {
+        if (success) {
+          console.log("Usuario logueado");
+          this.router.navigate(['/home']);
+        }
+      })
+      .catch(error => {
+        console.error("Error en login:", error.message);
+        this.errorMsg = "Login fallido: " + error.message;
+      });
+
+
       this.loginService.login(this.email, this.password).then((result) => {
-        if (result) {
           console.log("Login exitoso!");
           this.router.navigate(["/home"]);
-        }
-        else {
-          this.loginFailed = true;
-        }
+      })
+      .catch((error) => {
+        this.errorMsg = error?.message;
+        this.loginFailed = true;
+
       });
-      
     }
   }
 

@@ -1,0 +1,12 @@
+<div class="chat-container">
+  <div class="messages" #containerDos>
+    <div *ngFor="let msg of messages" [ngClass]="{'own-message': msg.sender === getUserEmail(), 'other-message': msg.sender !== getUserEmail()}">
+      <strong>{{ msg.sender }}:</strong> {{ msg.text }}
+    </div>
+  </div>
+
+  <div class="input-container">
+    <input [(ngModel)]="message" (keyup.enter)="saveMessage()" placeholder="Escribe un mensaje..." />
+    <button (click)="saveMessage()">Enviar</button>
+  </div>
+</div>

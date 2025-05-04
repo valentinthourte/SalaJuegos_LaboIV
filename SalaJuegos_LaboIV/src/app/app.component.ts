@@ -29,6 +29,10 @@ export class AppComponent {
     return this.loginService.IsLoggedIn();
   }
 
+  getUsuario() {
+    return this.loginService.getUser().email;
+  }
+
   onLogout() {
     this.loginService.logout();
     this.router.navigate(["login"])
