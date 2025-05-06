@@ -40,17 +40,6 @@ ngAfterViewInit(): void {
         console.error("Error en login:", error.message);
         this.errorMsg = "Login fallido: " + error.message;
       });
-
-
-      this.loginService.login(this.email, this.password).then((result) => {
-          console.log("Login exitoso!");
-          this.router.navigate(["/home"]);
-      })
-      .catch((error) => {
-        this.errorMsg = error?.message;
-        this.loginFailed = true;
-
-      });
     }
   }
 

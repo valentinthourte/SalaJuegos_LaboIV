@@ -1,0 +1,27 @@
+<div class="hangman-container">
+    <h2>Juego del Ahorcado</h2>
+  
+    <div class="word">
+      <span *ngFor="let letter of displayedWord">
+        {{ letter }}
+      </span>
+    </div>
+  
+    <div class="letters">
+      <button
+        *ngFor="let letter of alphabet"
+        [disabled]="guessedLetters.includes(letter) || gameOver"
+        (click)="guessLetter(letter)"
+      >
+        {{ letter }}
+      </button>
+    </div>
+  
+    <div class="status">
+      <p>Errores: {{ errors }} / {{ maxErrors }}</p>
+      <p *ngIf="gameOver && isWinner">¡Ganaste! 🎉</p>
+      <p *ngIf="gameOver && !isWinner">Perdiste 😢 La palabra era: {{ word }}</p>
+    </div>
+  
+    <button *ngIf="gameOver" (click)="resetGame()">Jugar de nuevo</button>
+  </div>

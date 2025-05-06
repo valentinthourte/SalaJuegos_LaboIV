@@ -1,0 +1,32 @@
+.hangman-container {
+    text-align: center;
+    margin: auto;
+    font-family: sans-serif;
+    background-color: rgba(200, 200, 200, 1);
+    padding: 25px;
+    width: 60%;
+  
+    .word {
+      font-size: 2rem;
+      letter-spacing: 1rem;
+      margin: 1.5rem 0;
+    }
+  
+    .letters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+  
+      button {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+      }
+    }
+  
+    .status {
+      margin-top: 1rem;
+    }
+  }
+  

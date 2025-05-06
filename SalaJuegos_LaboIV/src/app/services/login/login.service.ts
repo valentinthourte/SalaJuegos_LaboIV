@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { createClient, User } from '@supabase/supabase-js';
+import { User } from '@supabase/supabase-js';
 import { StorageService } from '../storage/storage.service';
 import { environment } from '../../../environments/environment.prod';
 import { SupabaseService } from '../supabase/supabase.service';
@@ -8,8 +8,6 @@ import { SupabaseService } from '../supabase/supabase.service';
   providedIn: 'root'
 })
 export class LoginService {
-  
-  private supabase = createClient(environment.apiUrl, environment.publicAnonKey);
   constructor(private storageService: StorageService, private supabaseService: SupabaseService) { }
 
   async login(username: string, password: string): Promise<boolean> {
@@ -31,9 +29,9 @@ export class LoginService {
   async signUp(username: string, password: string, name: string): Promise<boolean> {
     try {
       const { data, error } = await this.supabaseService.signUp(username, password);
-      if (error) {
+      if (error && !this.errorIsLockProblem(error)) {
         console.log("Error en signUp:", error.message);
-        return this.errorIsLockProblem(error);
+        throw error;
       }
       console.log("Registro exitoso!");
       this.saveUserLocal(data.user!);
@@ -69,18 +67,6 @@ export class LoginService {
 
   logout() {
     sessionStorage.removeItem("user");
-  }
-
-  async saveFile(avatarFile: File | null) {
-  const { data, error } = await this.supabase
-    .storage
-    .from('images')
-    .upload(`users/${avatarFile?.name}`, avatarFile!, {
-      cacheControl: '3600',
-      upsert: false
-    });
-  
-    return data;
   }
 
   errorIsLockProblem(error: Error): any {

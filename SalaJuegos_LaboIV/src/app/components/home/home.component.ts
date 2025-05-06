@@ -36,4 +36,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
     
   }
 
+  
+onClickJuego(juego: string) {
+  this.router.navigate([juego]);
+  }
+
 }

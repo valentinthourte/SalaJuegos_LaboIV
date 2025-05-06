@@ -1,12 +1,14 @@
 <div class="chat-container">
-  <div class="messages" #containerDos>
-    <div *ngFor="let msg of messages" [ngClass]="{'own-message': msg.sender === getUserEmail(), 'other-message': msg.sender !== getUserEmail()}">
-      <strong>{{ msg.sender }}:</strong> {{ msg.text }}
+  <div class="messages" #chatContainer>
+    <div *ngFor="let msg of chat()" [ngClass]="{ 'own-message': isOwnMessage(msg), 'other-message': !isOwnMessage(msg) }" class="message">
+      <div class="sender">{{ isOwnMessage(msg) ? 'Tú' : msg.sender }}</div>
+      <div class="text">{{ msg.message }}</div>
+      <div class="created_at">{{ msg?.created_at | date : "M/d/yy, h:mm a"  }}</div>
     </div>
   </div>
 
   <div class="input-container">
-    <input [(ngModel)]="message" (keyup.enter)="saveMessage()" placeholder="Escribe un mensaje..." />
-    <button (click)="saveMessage()">Enviar</button>
+    <input [(ngModel)]="message" (keyup.enter)="saveMessage()" placeholder="Escribe tu mensaje..." />
+    <button (click)="saveMessage()" [disabled]="!message.trim()">Enviar</button>
   </div>
 </div>

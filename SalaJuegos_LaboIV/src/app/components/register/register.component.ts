@@ -14,18 +14,26 @@ export class RegisterComponent {
   protected email: string | undefined;
   protected name: string | undefined;
   protected password: string | undefined;
+  protected errorMsg: string = "";
+  protected loginFailed: boolean = false;
   constructor(private router: Router, private loginService: LoginService ) {
     
   }
 
   signUp() {
     if (this.validateFields()) {
+      this.loginFailed = false;
       this.loginService.signUp(this.email!, this.password!, this.name!).then((result) => {
         if (result) {
           console.log("Login exitoso!");
           this.router.navigate(["/home"]);
         }
-      });
+      })
+      .catch(error => {
+        console.error("Error en login:", error.message);
+        this.errorMsg = "Login fallido: " + error.message;
+        this.loginFailed = true;
+      });;
     }
   }
   validateFields() {
