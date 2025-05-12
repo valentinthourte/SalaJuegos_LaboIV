@@ -1,25 +1,30 @@
-<div class="container d-flex flex-column justify-content-center tarjeta-login">
-    <div class="d-flex p-2 justify-content-center">
-        <input type="text" name="email" id="email" placeholder="Email" [(ngModel)]="email" required>
-    </div>
-    <div class="d-flex p-2 justify-content-center">
-        <input type="password" name="pass" id="password" placeholder="Contraseña" [(ngModel)]="password" required>
-    </div>
-    <div class="d-flex p-2 justify-content-center">
-        <button (click)="login()" style="margin-right: 2px;">Ingresar</button>
-    </div>
-    <div class="d-flex p-2 justify-content-center">
-        <button (click)="onAutocomplete()" style="margin-left: 2px;">Auto completar</button>
-    </div>
-
-    <div class="d-flex p-2 justify-content-center">
-        <button (click)="registrarse()">Registrarse</button>
-    </div>
-    @if(this.loginFailed) {
-        <div class="container d-flex cartel-error justify-content-center align-items-center">
-            <p>{{ this.errorMsg }}</p>
+<div class="container d-flex flex-column justify-content-center align-items-center">
+   <div class="card w-25 h-75 m-5">
+        <div class="card-header text-center">Sala de juegos</div>
+        <div class="card-body">
+            <div class="d-flex p-2 justify-content-center">
+                <input type="text" name="email" id="email" placeholder="Email" class="form-control" [(ngModel)]="email" required>
+            </div>
+            <div class="d-flex p-2 justify-content-center">
+                <input type="password" name="pass" id="password" placeholder="Contraseña" class="form-control" [(ngModel)]="password" required>
+            </div>
+            <div class="d-flex p-2 justify-content-center">
+                <button (click)="login()" style="margin-right: 2px;" class="btn btn-primary">Ingresar</button>
+            </div>
+            <div class="d-flex p-2 justify-content-center">
+                <button (click)="onAutocomplete()" style="margin-left: 2px;" class="btn btn-primary">Auto completar</button>
+            </div>
+        
+            <div class="d-flex p-2 justify-content-center">
+                <button (click)="registrarse()" class="btn btn-primary">Registrarse</button>
+            </div>
+            @if(this.loginFailed) {
+                <div class="container d-flex cartel-error justify-content-center align-items-center">
+                    <p>{{ this.errorMsg }}</p>
+                </div>
+            }
         </div>
-    }
+   </div>
 </div>
 
 

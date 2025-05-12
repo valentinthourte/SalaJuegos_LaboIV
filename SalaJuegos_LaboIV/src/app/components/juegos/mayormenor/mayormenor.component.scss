@@ -1,0 +1,30 @@
+ .carta {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    max-width: 300px;
+  }
+
+  .acierto {
+  animation: aciertoFlash 1s;
+  border: 4px solid #28a745;
+  border-radius: 10px;
+}
+
+.fallo {
+  animation: falloFlash 1s;
+  border: 4px solid #dc3545;
+  border-radius: 10px;
+}
+
+@keyframes aciertoFlash {
+  0% { box-shadow: 0 0 0px #28a745; }
+  50% { box-shadow: 0 0 25px #28a745; }
+  100% { box-shadow: 0 0 0px #28a745; }
+}
+
+@keyframes falloFlash {
+  0% { box-shadow: 0 0 0px #dc3545; }
+  50% { box-shadow: 0 0 25px #dc3545; }
+  100% { box-shadow: 0 0 0px #dc3545; }
+}

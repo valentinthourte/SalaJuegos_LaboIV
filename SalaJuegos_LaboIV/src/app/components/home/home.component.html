@@ -1,17 +1,26 @@
-<div class="container d-flex flex-row">
-    <div class="container tarjeta-juego" (click)="onClickJuego('ahorcado')" >
-        <p>Ahorcado</p>
-        <img src="assets/ahorcado.png" alt="Ahorcado" class="img-juego">
+<div class="container d-flex flex-row justify-content-center juegos text-center">
+    <div class="card" (click)="onClickJuego('ahorcado')">
+        <div class="card-header">Ahorcado</div>
+        <div class="card-body">
+            <img src="assets/ahorcado.png" alt="Ahorcado" class="img-juego">
+        </div>
     </div>
-    <div class="container tarjeta-juego" (click)="onClickJuego('mayormenor')">
-        <p>Mayor o menor</p>
-        <img src="assets/mayoromenor.png" alt="Mayor o menor" class="img-juego">
+    <div class="card" (click)="onClickJuego('mayormenor')">
+        <div class="card-header">Mayor o menor</div>
+        <div class="card-body">
+            <img src="assets/mayoromenor.png" alt="Mayor o menor" class="img-juego">
+        </div>
     </div>
-    <div class="container tarjeta-juego" >
-        <p>Preguntados</p>
+    <div class="card" (click)="onClickJuego('preguntados')">
+        <div class="card-header">Preguntados</div>
+        <div class="card-body">
+            <img src="assets/preguntados.png" alt="Preguntados" class="img-juego">
+        </div>
     </div>
-    <div class="container tarjeta-juego" >
-        <p>Multiplicalo</p>
-        <img src="assets/multiplicalo.png" alt="Multiplícalo" class="img-juego">
+    <div class="card" (click)="onClickJuego('multiplicalo')">
+        <div class="card-header">Multiplícalo</div>
+        <div class="card-body">
+            <img src="assets/multiplicalo.png" alt="Multiplicalo" class="img-juego">
+        </div>
     </div>
 </div>

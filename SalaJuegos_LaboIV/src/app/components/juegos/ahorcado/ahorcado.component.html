@@ -1,27 +1,44 @@
-<div class="hangman-container">
-    <h2>Juego del Ahorcado</h2>
-  
-    <div class="word">
-      <span *ngFor="let letter of displayedWord">
-        {{ letter }}
-      </span>
+<div class="justify-content-center d-flex align-items-center mt-5 ahorcado-container">
+  <div class="card text-center card-container">
+    <div class="card-header">
+      <h2>Juego del Ahorcado</h2>
+      <p>Score: {{ score }}</p>
     </div>
-  
-    <div class="letters">
-      <button
-        *ngFor="let letter of alphabet"
-        [disabled]="guessedLetters.includes(letter) || gameOver"
-        (click)="guessLetter(letter)"
-      >
-        {{ letter }}
-      </button>
+    
+    <div class="card-body d-flex flex-row">
+      
+      <img [src]="currentImage" alt="Ahorcado" style="max-width: 300px;">
+      <!-- <div class="container w-50">
+      </div> -->
+      <div >
+       <div class="word">
+        <span *ngFor="let letter of displayedWord" class="fs-3">
+          {{ letter }}
+        </span>
+      </div>
+    
+      <div class="letters justify-content-center align-items-center" style="max-width: 35vw;">
+        <button
+          *ngFor="let letter of alphabet"
+          [disabled]="guessedLetters.includes(letter) || gameOver"
+          (click)="guessLetter(letter)"
+          class="btn btn-primary m-1"
+          style="width: 3vw; height: 3vw;"
+        >
+          {{ letter }}
+        </button>
+      </div>
+    
+      <div class="status">
+        <p>Errores: {{ errors }} / {{ maxErrors }}</p>
+        <p *ngIf="gameOver && isWinner">¡Ganaste! 🎉</p>
+        <p *ngIf="gameOver && !isWinner">Perdiste 😢 La palabra era: {{ word }}</p>
+      </div>
+    
+      <button *ngIf="gameOver" (click)="resetGame()" class="btn btn-primary">Jugar de nuevo</button>
     </div>
-  
-    <div class="status">
-      <p>Errores: {{ errors }} / {{ maxErrors }}</p>
-      <p *ngIf="gameOver && isWinner">¡Ganaste! 🎉</p>
-      <p *ngIf="gameOver && !isWinner">Perdiste 😢 La palabra era: {{ word }}</p>
-    </div>
-  
-    <button *ngIf="gameOver" (click)="resetGame()">Jugar de nuevo</button>
+      </div>
+     
   </div>
+ 
+</div>

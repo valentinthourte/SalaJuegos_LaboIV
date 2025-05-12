@@ -5,8 +5,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { QuienSoyComponent } from './components/quien-soy/quien-soy.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ChatComponent } from './components/chat/chat/chat.component';
-import { AhorcadoComponent } from './components/juegos/ahorcado/ahorcado.component';
-import { MayorMenorComponent } from './components/juegos/mayormenor/mayormenor.component';
+
 
 export const routes: Routes = [
     {path: "", redirectTo: "/login", pathMatch:"full"},
@@ -15,7 +14,6 @@ export const routes: Routes = [
     {path: "home", component: HomeComponent},
     {path: "quien-soy", component: QuienSoyComponent},
     {path: "chat", component: ChatComponent},
-    {path: "ahorcado", component: AhorcadoComponent},
-    {path: "mayormenor", component: MayorMenorComponent},
+    {path: 'juegos',loadChildren: () => import('./modules/juegos/juegos.module').then(m => m.JuegosModule)},
     {path: "**", component: NotFoundComponent}
 ];

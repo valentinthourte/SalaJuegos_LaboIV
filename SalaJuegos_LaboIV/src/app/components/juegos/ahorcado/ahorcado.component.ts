@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-
+import { RankingService } from '../../../services/ranking/ranking.service';
+const firstImage: string = "./assets/ahorcado-0.png";
 @Component({
   selector: 'app-ahorcado',
   imports: [CommonModule],
@@ -15,10 +16,15 @@ export class AhorcadoComponent implements OnInit {
   maxErrors: number = 6;
   gameOver: boolean = false;
   isWinner: boolean = false;
+  currentImage: string = firstImage;
+  score: number = 0;
 
   alphabet: string[] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-  private wordPool: string[] = ['ANGULAR', 'COMPONENTE', 'AHORCADO', 'DESARROLLO', 'FRONTEND'];
+  private wordPool: string[] =
+  ['ANGULAR', 'COMPONENTE', 'AHORCADO', 'DESARROLLO', 'FRONTEND', 'TECNOLOGIA', 'APLICACION', 'JUEGO' ];
+  
+  constructor(private rankingService: RankingService) {}
 
   ngOnInit() {
     this.resetGame();
@@ -31,6 +37,7 @@ export class AhorcadoComponent implements OnInit {
       this.updateDisplayedWord();
     } else {
       this.errors++;
+      this.currentImage = "./assets/ahorcado-" + this.errors + ".png";
     }
 
     this.checkGameStatus();
@@ -46,6 +53,7 @@ export class AhorcadoComponent implements OnInit {
     if (!this.displayedWord.includes('_')) {
       this.gameOver = true;
       this.isWinner = true;
+      this.score += 10;
     } else if (this.errors >= this.maxErrors) {
       this.gameOver = true;
     }
@@ -54,9 +62,14 @@ export class AhorcadoComponent implements OnInit {
   resetGame() {
     this.word = this.wordPool[Math.floor(Math.random() * this.wordPool.length)];
     this.guessedLetters = [];
+    if (this.isWinner == false) {
+      this.rankingService.saveScore('ahorcado', this.score);
+      this.score = 0;
+    }
     this.errors = 0;
     this.gameOver = false;
     this.isWinner = false;
     this.displayedWord = Array(this.word.length).fill('_');
+    this.currentImage = firstImage;
   }
 }
