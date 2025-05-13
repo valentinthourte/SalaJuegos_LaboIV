@@ -39,6 +39,7 @@ ngAfterViewInit(): void {
       .catch(error => {
         console.error("Error en login:", error.message);
         this.errorMsg = "Login fallido: " + error.message;
+        this.loginFailed = true;
       });
     }
   }
