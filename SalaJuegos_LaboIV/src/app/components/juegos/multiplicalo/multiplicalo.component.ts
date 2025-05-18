@@ -14,6 +14,7 @@ export class MultiplicaloComponent implements OnDestroy {
   intervalo: any;
   perdio: boolean = false;
   corriendo: boolean = false;
+  frenosRecientes: number[] = [];
 
   constructor(private ranking: RankingService) {}
   iniciar() {
@@ -32,6 +33,10 @@ export class MultiplicaloComponent implements OnDestroy {
     this.corriendo = false;
     this.perdio = true;
     this.ranking.saveScore("multiplicalo", this.score);
+    this.agregarUltimoFreno(this.contador)
+  }
+  agregarUltimoFreno(contador: number) {
+    this.frenosRecientes.push(contador);
   }
 
   frenar() {
@@ -39,6 +44,7 @@ export class MultiplicaloComponent implements OnDestroy {
       this.corriendo = false;
       clearInterval(this.intervalo);
       this.score *= this.contador;
+      this.agregarUltimoFreno(this.contador);
       this.contador = 1;
     }
   }

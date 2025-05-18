@@ -2,30 +2,19 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit, signal } from '@angular/core';
 import { ChatMessage } from '../../models/chat-message';
 import { SupabaseService } from '../supabase/supabase.service';
+import { RealtimeChannel } from '@supabase/supabase-js';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChatService implements OnInit {
+export class ChatService {
 
   public chat = signal<ChatMessage[]>([]);
-  
+  private channel: RealtimeChannel | null = null;
   constructor(private supabase: SupabaseService) { }
-
-
-  ngOnInit(): void {
-
-    this.subscribeToMessages();
-  }
   
-  getMessages() {
-    this.supabase.getMessages()
-    .then((res: ChatMessage[] | null) => {
-      console.log(res);
-      
-      if (res)
-        this.chat.set(res)
-    });
+  async getMessages() {
+    return await this.supabase.getMessages();
   }
   
 
@@ -41,22 +30,26 @@ export class ChatService implements OnInit {
   }
 
   
-  subscribeToMessages() {
-    this.supabase.getChatChannel()
-    .on(
-      'postgres_changes',
-      { event: 'INSERT', schema: 'public', table: this.supabase.chatTableName() },
-      async (payload) => {
-        const message = payload.new as ChatMessage;
-        
-        this.addNewMessage(message);
-      }
-    )
-    .subscribe();
+  subscribeToMessages(onNewMessage: (msg: ChatMessage) => void): RealtimeChannel{
+    this.channel = this.supabase.channel('messages-channel')
+    .on('postgres_changes',{
+      event: 'INSERT',
+      schema: 'public',
+      table: 'chat-messages'
+    }, (payload) =>{
+      const newMessage = payload.new as ChatMessage;
+      onNewMessage(newMessage);
+    }).subscribe((status) =>{
+      console.log('Realtime subscription status:', status);
+    });
+
+    return this.channel!;
   }
+
+
   addNewMessage(message: ChatMessage) {
     let messages = this.chat();
     this.chat.set([...messages, message]);
   }
-
+  
 }

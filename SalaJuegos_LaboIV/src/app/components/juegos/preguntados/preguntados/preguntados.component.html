@@ -1,0 +1,38 @@
+<div class="container d-flex justify-content-center align-items-center" style="height: 90vh">
+  <div class="container p-4 d-flex flex-column align-items-center game-container">
+
+    <h2 style="color: white; margin-bottom: 20px">Adivina la bandera</h2>
+
+    <div class="container datos">
+      <div class="vidas-container">
+        <img *ngFor="let v of vidasArray; let i = index" 
+             src="assets/vida.png" 
+             alt="Vida {{ i + 1 }}" 
+             class="vida-icon m-2" />
+      </div>
+    </div>
+
+    <div class="question-image mb-4">
+      <img [src]="paisActual?.flags?.svg" alt="Pregunta" class="img-fluid rounded shadow">
+    </div>
+
+    <!-- Opciones en 2 columnas x 2 filas -->
+    <div class="row w-100 options-grid">
+      <div class="col-12 col-md-6 mb-3" *ngFor="let opcion of opciones; let i = index">
+        <button 
+          class="btn w-100 py-3 option-btn"
+          [ngClass]="{
+            'btn-primary': !opcionSeleccionada,
+            'btn-success': opcionSeleccionada && opcion === paisActual,
+            'btn-danger': opcionSeleccionada && opcion !== paisActual
+          }"
+          (click)="seleccionarOpcion(opcion)"
+          [disabled]="!!opcionSeleccionada"
+        >
+          {{ opcion.name.common }}
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

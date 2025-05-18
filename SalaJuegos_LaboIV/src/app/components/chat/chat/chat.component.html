@@ -1,6 +1,6 @@
-<div class="chat-container">
+<div class="chat-container" id="chat-container">
   <div class="messages" #chatContainer>
-    <div *ngFor="let msg of chat()" [ngClass]="{ 'own-message': isOwnMessage(msg), 'other-message': !isOwnMessage(msg) }" class="message">
+    <div *ngFor="let msg of messages" [ngClass]="{ 'own-message': isOwnMessage(msg), 'other-message': !isOwnMessage(msg) }" class="message">
       <div class="sender">{{ isOwnMessage(msg) ? 'Tú' : msg.sender }}</div>
       <div class="text">{{ msg.message }}</div>
       <div class="created_at">{{ msg?.created_at | date : "M/d/yy, h:mm a"  }}</div>

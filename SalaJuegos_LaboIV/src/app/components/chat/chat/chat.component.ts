@@ -4,6 +4,7 @@ import { ChatService } from '../../../services/chat/chat.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LoginService } from '../../../services/login/login.service';
+import { RealtimeChannel } from '@supabase/supabase-js';
 
 @Component({
   selector: 'app-chat',
@@ -13,22 +14,25 @@ import { LoginService } from '../../../services/login/login.service';
 })
 export class ChatComponent implements OnInit {
 
-  protected messages: any[] = [];
+  protected messages: ChatMessage[] = [];
   protected message: string = "";
-  public chat = signal<ChatMessage[]>([]);
+  private channel: RealtimeChannel | null = null;
 
   @ViewChild('chatContainer') chatContainer!: ElementRef;
   constructor(private chatService: ChatService, private loginService: LoginService) {
-    this.chatService.getMessages();
-    effect(() => {
-      const chatList = this.chatService.chat();
-      this.chat.set(chatList);
+    
+  }
+  async ngOnInit() {
+    this.messages = await this.chatService.getMessages();
+    this.subscribeToRealtimeMessages();
+    setTimeout(() => this.scrollToBottom(), 100);
+  }
+
+  subscribeToRealtimeMessages() {
+    this.channel = this.chatService.subscribeToMessages((msg: ChatMessage) => {
+      this.messages.push(msg);
       setTimeout(() => this.scrollToBottom(), 100);
     });
-    this.chat.set(this.chatService.chat());
-  }
-  ngOnInit() {
-
   }
 
   scrollToBottom(): void {
