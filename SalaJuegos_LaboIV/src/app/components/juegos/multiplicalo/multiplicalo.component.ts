@@ -28,23 +28,19 @@ export class MultiplicaloComponent implements OnDestroy {
       }
     }, 10);
   }
+
   perder() {
     clearInterval(this.intervalo);
     this.corriendo = false;
     this.perdio = true;
-    this.ranking.saveScore("multiplicalo", this.score);
-    this.agregarUltimoFreno(this.contador)
+    this.ranking.saveScore("multiplicalo", Math.trunc(this.score * 100) / 100 );
   }
-  agregarUltimoFreno(contador: number) {
-    this.frenosRecientes.push(contador);
-  }
-
+  
   frenar() {
     if (!this.perdio) {
       this.corriendo = false;
       clearInterval(this.intervalo);
       this.score *= this.contador;
-      this.agregarUltimoFreno(this.contador);
       this.contador = 1;
     }
   }
@@ -52,7 +48,7 @@ export class MultiplicaloComponent implements OnDestroy {
   reiniciar() {
     this.corriendo = false;
     this.perdio = false;
-    this.score = 1;
+    this.score = 8;
     this.contador = 1;
     clearInterval(this.intervalo);
     this.iniciar();

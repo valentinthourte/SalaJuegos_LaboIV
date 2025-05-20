@@ -1,22 +1,35 @@
 <div class="container d-flex justify-content-center align-items-center" style="height: 90vh">
   <div class="container p-4 d-flex flex-column align-items-center game-container">
 
-    <h2 style="color: white; margin-bottom: 20px">Adivina la bandera</h2>
+    <h2 style="color: white; margin-bottom: 20px">{{ perdio ? 'Fin del juego!' :  'Adivina la bandera'}}</h2>
 
-    <div class="container datos">
-      <div class="vidas-container">
-        <img *ngFor="let v of vidasArray; let i = index" 
-             src="assets/vida.png" 
-             alt="Vida {{ i + 1 }}" 
-             class="vida-icon m-2" />
+
+
+    @if (perdio) {
+      <div class="fin-juego-container d-flex flex-column align-items-center justify-content-center text-center mt-4">
+        <p class="fin-texto mb-2">Tu puntaje final fue:</p>
+        <h2 class="fin-puntaje mb-4">{{ score }}</h2>
+        <button class="btn btn-light btn-lg" (click)="reiniciarJuego()">Volver a jugar</button>
       </div>
-    </div>
+    }
+    @else {
+      
+    <div class="container datos d-flex justify-content-between align-items-center">
+      <div class="vidas-container d-flex">
+          <img *ngFor="let v of vidasArray; let i = index" 
+              src="assets/vida.png" 
+              alt="Vida {{ i + 1 }}" 
+              class="vida-icon m-2" />
+      </div>
+      <h3 class="m-0" style="color:white">Score: {{ score }}</h3>
+      </div>
+
 
     <div class="question-image mb-4">
       <img [src]="paisActual?.flags?.svg" alt="Pregunta" class="img-fluid rounded shadow">
     </div>
 
-    <!-- Opciones en 2 columnas x 2 filas -->
+
     <div class="row w-100 options-grid">
       <div class="col-12 col-md-6 mb-3" *ngFor="let opcion of opciones; let i = index">
         <button 
@@ -34,5 +47,7 @@
       </div>
     </div>
 
+    }
+  
   </div>
 </div>

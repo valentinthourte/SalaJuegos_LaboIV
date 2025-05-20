@@ -1,0 +1,32 @@
+.ranking-container {
+  border: 3px solid;
+  backdrop-filter: blur(2px);
+  background-color: rgba(155, 193, 188, 0.7);
+  border-radius: 10px;
+  min-height: 50vh;
+  overflow: hidden; /* Para que la tabla no sobresalga */
+}
+
+/* Arregla la tabla para que se vea integrada al contenedor */
+.custom-table {
+  border-collapse: separate !important;
+  border-spacing: 0;
+  margin: 0 auto;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: rgba(155, 193, 188, 0.7);
+}
+
+.custom-table th:first-child {
+  border-top-left-radius: 10px;
+}
+.custom-table th:last-child {
+  border-top-right-radius: 10px;
+}
+.custom-table tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+.custom-table tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}

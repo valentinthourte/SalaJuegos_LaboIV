@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RankingService } from '../../../services/ranking/ranking.service';
-const firstImage: string = "./assets/ahorcado-0.png";
+const firstImage: string = "./assets/ahorcado2-0.png";
 @Component({
   selector: 'app-ahorcado',
   imports: [CommonModule],
@@ -13,7 +13,7 @@ export class AhorcadoComponent implements OnInit {
   displayedWord: string[] = [];
   guessedLetters: string[] = [];
   errors: number = 0;
-  maxErrors: number = 6;
+  maxErrors: number = 7;
   gameOver: boolean = false;
   isWinner: boolean = false;
   currentImage: string = firstImage;
@@ -37,7 +37,7 @@ export class AhorcadoComponent implements OnInit {
       this.updateDisplayedWord();
     } else {
       this.errors++;
-      this.currentImage = "./assets/ahorcado-" + this.errors + ".png";
+      this.currentImage = "./assets/ahorcado2-" + this.errors + ".png";
     }
 
     this.checkGameStatus();
@@ -62,7 +62,7 @@ export class AhorcadoComponent implements OnInit {
   resetGame() {
     this.word = this.wordPool[Math.floor(Math.random() * this.wordPool.length)];
     this.guessedLetters = [];
-    if (this.isWinner == false) {
+    if (this.isWinner == false && this.score != 0) {
       this.rankingService.saveScore('ahorcado', this.score);
       this.score = 0;
     }

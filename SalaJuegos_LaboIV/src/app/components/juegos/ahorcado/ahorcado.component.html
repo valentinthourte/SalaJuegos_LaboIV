@@ -1,5 +1,5 @@
-<div class="justify-content-center d-flex align-items-center mt-5 ahorcado-container">
-  <div class="card text-center card-container">
+<div class="justify-content-center d-flex align-items-center mt-5 ahorcado-container" style="height: 80vh;">
+  <div class="card text-center card-container carta">
     <div class="card-header">
       <h2>Juego del Ahorcado</h2>
       <p>Score: {{ score }}</p>
@@ -8,8 +8,7 @@
     <div class="card-body d-flex flex-row">
       
       <img [src]="currentImage" alt="Ahorcado" style="max-width: 300px;">
-      <!-- <div class="container w-50">
-      </div> -->
+
       <div >
        <div class="word">
         <span *ngFor="let letter of displayedWord" class="fs-3">

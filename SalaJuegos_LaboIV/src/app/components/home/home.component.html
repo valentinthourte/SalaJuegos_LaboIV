@@ -1,27 +1,16 @@
-<div class="container d-flex flex-row justify-content-center juegos text-center align-items-center" style="height: 90vh;">
-    
-    <div class="card" (click)="onClickJuego('ahorcado')">
-        <div class="card-header">Ahorcado</div>
-        <div class="card-body">
-            <img src="assets/ahorcado.png" alt="Ahorcado" class="img-juego">
-        </div>
+<div class="container py-5">
+    <div class="d-flex flex-center align-items-center">
+        <h1 class="text-center mb-5 display-4 fw-bold titulo">🎮 ¡Elige un juego!</h1>
     </div>
-    <div class="card" (click)="onClickJuego('mayormenor')">
-        <div class="card-header">Mayor o menor</div>
-        <div class="card-body">
-            <img src="assets/mayoromenor.png" alt="Mayor o menor" class="img-juego">
+
+  <div class="row g-4 justify-content-center">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let juego of juegos">
+      <div class="card juego-card h-100 shadow-sm border-0" (click)="onClickJuego(juego.nombre)">
+        <div class="card-body text-center">
+          <img [src]="juego.imagen" [alt]="juego.nombre" class="img-fluid mb-3 juego-img" />
+          <h5 class="card-title fw-bold">{{ juego.titulo }}</h5>
         </div>
+      </div>
     </div>
-    <div class="card" (click)="onClickJuego('preguntados')">
-        <div class="card-header">Preguntados</div>
-        <div class="card-body">
-            <img src="assets/preguntados.png" alt="Preguntados" class="img-juego">
-        </div>
-    </div>
-    <div class="card" (click)="onClickJuego('multiplicalo')">
-        <div class="card-header">Multiplícalo</div>
-        <div class="card-body">
-            <img src="assets/multiplicalo.png" alt="Multiplicalo" class="img-juego">
-        </div>
-    </div>
+  </div>
 </div>

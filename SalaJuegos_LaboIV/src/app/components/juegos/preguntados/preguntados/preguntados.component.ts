@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { PreguntadosService } from '../../../../services/preguntados/preguntados.service';
 import { Pais } from '../../../../models/pais';
+import { RankingService } from '../../../../services/ranking/ranking.service';
 
 @Component({
   selector: 'app-preguntados',
@@ -17,10 +18,11 @@ export class PreguntadosComponent implements OnInit{
   protected score: number = 0;
   protected vidas!: number;
   protected opcionSeleccionada: Pais | undefined;
+  protected perdio: boolean = false;
 
   imagenPregunta: string = 'assets/imagen-ejemplo.jpg';
 
-  constructor(private preguntadosService: PreguntadosService) {}
+  constructor(private preguntadosService: PreguntadosService, private rankingService: RankingService) {}
 
   ngOnInit(): void {
     this.preguntadosService.obtenerPaises().subscribe(paises => {
@@ -32,6 +34,8 @@ export class PreguntadosComponent implements OnInit{
   }
   comenzarJuego() {
     this.vidas = 3;
+    this.score = 0;
+    this.perdio = false;
     this.comenzarRonda();
   }
 
@@ -70,28 +74,37 @@ export class PreguntadosComponent implements OnInit{
     else {
       this.vidas -= 1;
     }
-    setTimeout(() => {
-    this.siguienteRonda();
-    this.opcionSeleccionada = undefined;
-    }, 1500);
+    if (this.vidas > 0) {
+      setTimeout(() => {
+      this.siguienteRonda();
+      this.opcionSeleccionada = undefined;
+      }, 1500);
+    }
+    else {
+      this.perdio = true;
+    }
     
   }
 
   siguienteRonda() {
     this.paisActual!.usado = true;
-    this.opciones = [];
-    this.opcionSeleccionada = undefined;    
     this.comenzarRonda();
   }
 
   comenzarRonda() {
-
+    this.opciones = [];
+    this.opcionSeleccionada = undefined;    
     this.paisActual = this.obtenerPaisAleatorio();
     this.opciones.push(this.paisActual);
     this.completarOpciones();
   }
 
   get vidasArray() {
-  return Array(this.vidas);
-}
+    return Array(this.vidas);
+  }
+
+  reiniciarJuego() {
+    this.rankingService.saveScore("preguntados", this.score);
+    this.comenzarJuego();
+  }
 }

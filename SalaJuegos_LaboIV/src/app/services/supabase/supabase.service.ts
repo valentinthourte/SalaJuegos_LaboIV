@@ -3,7 +3,12 @@ import { environment } from '../../../environments/environment.prod';
 import { AuthResponse, createClient } from '@supabase/supabase-js';
 import { Observable } from 'rxjs';
 import { ChatMessage } from '../../models/chat-message';
+import { Ranking } from '../../models/ranking';
+
 const CHAT_TABLE = "chat-messages";
+const SCORE_TABLE = "scores";
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -68,4 +73,35 @@ export class SupabaseService {
   chatTableName(): string | undefined {
     return CHAT_TABLE;
   }
+
+  async saveScore(game: string, user: string, score: number) {
+    try {
+      const {error} = await this.supabase.from(SCORE_TABLE)
+      .insert({user: user, game: game, score: score});
+      if (error) {
+        console.log("Error al guardar score: " + error);
+      }
+    }
+    catch(error) {
+      console.log("Error al guardar score - en el catch. ");
+      console.log(error);
+    }
+  }
+
+  
+async getRankingsForGame(juego: string): Promise<Ranking[]> {
+  const { data, error } = await this.supabase
+    .from('scores')
+    .select('*')
+    .eq('game', juego.toLowerCase()) 
+    .order('score', { ascending: false }) 
+    .limit(10); 
+
+  if (error) {
+    console.error('Error fetching rankings:', error.message);
+    return [];
+  }
+
+  return data as Ranking[];
+}
 }

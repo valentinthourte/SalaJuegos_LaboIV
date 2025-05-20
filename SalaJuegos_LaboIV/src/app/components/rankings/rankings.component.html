@@ -1,0 +1,43 @@
+<div class="container mt-4 text-center ranking-container">
+
+  <div class="row justify-content-center mt-4">
+    <div class="col-auto" *ngFor="let juego of juegos">
+      <button 
+        class="btn btn-outline-primary me-2" 
+        [class.active]="juego === juegoSeleccionado"
+        (click)="seleccionarJuego(juego)">
+        {{ juego }}
+      </button>
+    </div>
+  </div>
+  <hr/>
+
+ <div *ngIf="juegoSeleccionado" class="p-4 d-flex flex-column align-items-center">
+    <h3 class="mb-4">{{ juegoSeleccionado }}</h3>
+
+    <!-- Tabla -->
+    <div class="table-responsive w-100">
+      <table class="table table-bordered table-hover table-striped text-center custom-table">
+        <thead class="table-primary">
+          <tr>
+            <th>#</th>
+            <th>Usuario</th>
+            <th>Puntuación</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let entrada of obtenerRankingActual(); let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ entrada.user }}</td>
+            <td>{{ truncarADosDecimales(entrada.score) }}</td>
+            <td>{{ entrada.created_at | date: 'dd/MM/yyyy HH:mm' }}</td>
+          </tr>
+          <tr *ngIf="obtenerRankingActual().length === 0">
+            <td colspan="4" class="text-muted">No hay registros aún para este juego.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
