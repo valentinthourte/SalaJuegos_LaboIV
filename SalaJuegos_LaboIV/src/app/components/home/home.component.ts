@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { LoginService } from '../../services/login/login.service';
 import { UserData } from '../../models/user-data';
 import { CommonModule } from '@angular/common';
+import { MayorMenorComponent } from '../juegos/mayormenor/mayormenor.component';
 
 @Component({
   selector: 'app-home',

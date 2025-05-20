@@ -12,9 +12,7 @@ const MAX_ERRORS = 3;
   templateUrl: './mayormenor.component.html',
   styleUrl: './mayormenor.component.scss'
 })
-export class MayorMenorComponent implements OnInit {
-
- 
+export class MayorMenorComponent implements OnInit { 
   private cartas: PokerCard[] = [];
   cartaActual: PokerCard | undefined;
   deckId: string = "";
@@ -24,10 +22,10 @@ export class MayorMenorComponent implements OnInit {
   gameOver: boolean = false;
   resultado: 'acierto' | 'fallo' | '' = '';
 
-  constructor(private mayorMenorService: MayormenorService, private ranking: RankingService) 
-  {
-    this.reestablecerMazo()
+  constructor(private mayorMenorService: MayormenorService, private ranking: RankingService) {
+    this.reestablecerMazo();
   }
+
   reestablecerMazo() {
      this.mayorMenorService.crearNuevoMazo().subscribe(deckId => {
           this.deckId = deckId;
@@ -59,17 +57,17 @@ export class MayorMenorComponent implements OnInit {
 
     switch(eleccion) {
       case "mayor": {
-        if (this.cartaActual.value >= this.cartaAnterior!.value)
+        if (this.obtenerValorCarta(this.cartaActual) >= this.obtenerValorCarta(this.cartaAnterior!))
           this.respuestaCorrecta();
         else
           this.respuestaIncorrecta();
         break;
       }
       case "menor": {
-          if (this.cartaActual.value >= this.cartaAnterior!.value)
-          this.respuestaIncorrecta();
-        else
+          if (this.obtenerValorCarta(this.cartaActual) < this.obtenerValorCarta(this.cartaAnterior!))
           this.respuestaCorrecta();
+        else
+          this.respuestaIncorrecta();
         break;
       }
     }
@@ -104,6 +102,9 @@ export class MayorMenorComponent implements OnInit {
     return this.mayorMenorService.getImagenDorso();
   }
 
-
-  
+  obtenerValorCarta(carta: PokerCard) {
+    const order = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"]
+    let valor = order.indexOf(carta.value[0]);
+    return valor;
+  }  
 }

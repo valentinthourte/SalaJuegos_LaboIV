@@ -6,7 +6,7 @@
   <div class="row g-4 justify-content-center">
     <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let juego of juegos">
       <div class="card juego-card h-100 shadow-sm border-0" (click)="onClickJuego(juego.nombre)">
-        <div class="card-body text-center">
+        <div class="card-body text-center carta-juego">
           <img [src]="juego.imagen" [alt]="juego.nombre" class="img-fluid mb-3 juego-img" />
           <h5 class="card-title fw-bold">{{ juego.titulo }}</h5>
         </div>
