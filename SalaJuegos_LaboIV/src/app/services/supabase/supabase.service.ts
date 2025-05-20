@@ -93,7 +93,7 @@ async getRankingsForGame(juego: string): Promise<Ranking[]> {
   const { data, error } = await this.supabase
     .from('scores')
     .select('*')
-    .eq('game', juego.toLowerCase()) 
+    .eq('game', juego) 
     .order('score', { ascending: false }) 
     .limit(10); 
 

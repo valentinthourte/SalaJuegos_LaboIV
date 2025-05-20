@@ -10,15 +10,28 @@ import { Ranking } from '../../models/ranking';
   styleUrl: './rankings.component.scss'
 })
 export class RankingsComponent {
-  juegos: string[] = ['Multiplicalo', 'Preguntados', 'Ahorcado', 'Mayor o menor'];
+  juegos: any[] = [
+    {name: 'Multiplicalo', code: "multiplicalo" },
+    {name: 'Preguntados', code: 'preguntados' },
+    {name: 'Ahorcado', code: "ahorcado" },
+    {name: 'Mayor o menor', code: "mayorMenor" }];
+
   juegoSeleccionado: string | null = null;
   rankingActual: Ranking[] = [];
   
   constructor(private rankingService: RankingService) {}
 
-  async seleccionarJuego(juego: string) {
-    this.juegoSeleccionado = juego;
-    this.rankingActual = await this.rankingService.getRankings(juego);
+  async seleccionarJuego(juego: any) {
+    this.juegoSeleccionado = juego.name;
+    let codigoJuego = this.obtenerJuegoPorNombre(juego.name);
+    
+    console.log(codigoJuego.code);
+    this.rankingActual = await this.rankingService.getRankings(codigoJuego.code);
+    console.log(this.rankingActual);
+  }
+
+  obtenerJuegoPorNombre(nombre: string): any | null {
+    return this.juegos.find(j => j.name == nombre) || null;
   }
 
   obtenerRankingActual() {

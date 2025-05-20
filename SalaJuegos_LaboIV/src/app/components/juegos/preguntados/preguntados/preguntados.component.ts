@@ -25,13 +25,20 @@ export class PreguntadosComponent implements OnInit{
   constructor(private preguntadosService: PreguntadosService, private rankingService: RankingService) {}
 
   ngOnInit(): void {
-    this.preguntadosService.obtenerPaises().subscribe(paises => {
-      console.log(paises);
-      this.paises = paises;
+    this.obtenerPaisesYComenzar(true);
+  }
 
-      this.comenzarJuego();
+  obtenerPaisesYComenzar(restart: boolean = false) {
+    this.preguntadosService.obtenerPaises().subscribe(paises => {
+      this.paises = paises;
+      console.log("Paises obtenidos - Comenzando juego");
+      if (restart)
+        this.comenzarJuego();
+      else
+      this.comenzarRonda();
     });
   }
+
   comenzarJuego() {
     this.vidas = 3;
     this.score = 0;
@@ -41,13 +48,14 @@ export class PreguntadosComponent implements OnInit{
 
   completarOpciones() {
     while (this.opciones.length < 4) {
-      let pais = this.obtenerPaisAleatorio();
+      let pais = this.obtenerPaisAleatorio(true);
       if (this.opciones.includes(pais) == false){
         this.opciones.push(pais);
       }
     }  
     this.opciones = this.shuffleArray(this.opciones);
   }
+
   shuffleArray(array: Pais[]) {
     const result = [...array]; // Copia para no modificar el original
     for (let i = result.length - 1; i > 0; i--) {
@@ -57,10 +65,14 @@ export class PreguntadosComponent implements OnInit{
     return result;
   }
 
-  private obtenerPaisAleatorio(): Pais {
-    let paisesPosibles = this.paises.filter(pais => pais.usado == false);
+  private obtenerPaisAleatorio(incluirUsados: boolean): Pais {
+    let paisesPosibles = this.obtenerPaisesDisponibles(incluirUsados);
     let indice = Math.floor(Math.random() * paisesPosibles.length);
     return paisesPosibles[indice];
+  }
+
+  obtenerPaisesDisponibles(incluirUsados: boolean = false) {
+    return incluirUsados ? this.paises : this.paises.filter(pais => pais.usado == false);
   }
 
   seleccionarOpcion(opcion: Pais) {
@@ -88,13 +100,19 @@ export class PreguntadosComponent implements OnInit{
 
   siguienteRonda() {
     this.paisActual!.usado = true;
-    this.comenzarRonda();
+    console.log(this.obtenerPaisesDisponibles());
+    
+    if (this.obtenerPaisesDisponibles().length == 0) {
+      this.obtenerPaisesYComenzar();
+    }
+    else
+      this.comenzarRonda();
   }
 
   comenzarRonda() {
     this.opciones = [];
     this.opcionSeleccionada = undefined;    
-    this.paisActual = this.obtenerPaisAleatorio();
+    this.paisActual = this.obtenerPaisAleatorio(false);
     this.opciones.push(this.paisActual);
     this.completarOpciones();
   }

@@ -9,6 +9,6 @@
 
   <div class="input-container">
     <input [(ngModel)]="message" (keyup.enter)="saveMessage()" placeholder="Escribe tu mensaje..." />
-    <button (click)="saveMessage()" [disabled]="!message.trim()">Enviar</button>
+    <button class="btn btn-primary" (click)="saveMessage()" [disabled]="!message.trim()">Enviar</button>
   </div>
 </div>

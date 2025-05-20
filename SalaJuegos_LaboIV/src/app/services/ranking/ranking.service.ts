@@ -7,14 +7,13 @@ import { SupabaseService } from '../supabase/supabase.service';
 })
 export class RankingService {
   
-  
   constructor(private loginService: LoginService, private supabaseService: SupabaseService) { }
   
   saveScore(game: string, score: number) {
     let user = this.loginService.getUserEmail();
     this.supabaseService.saveScore(game, user, score);
-    
   }
+
   async getRankings(juego: string) {
     return await this.supabaseService.getRankingsForGame(juego);
   }
