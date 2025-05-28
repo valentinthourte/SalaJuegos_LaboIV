@@ -4,15 +4,18 @@ import { AuthResponse, createClient } from '@supabase/supabase-js';
 import { Observable } from 'rxjs';
 import { ChatMessage } from '../../models/chat-message';
 import { Ranking } from '../../models/ranking';
+import { Encuesta } from '../../models/encuesta';
 
 const CHAT_TABLE = "chat-messages";
 const SCORE_TABLE = "scores";
+const SURVEY_TABLE = "surveys";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class SupabaseService {
+
   
   private supabase = createClient(environment.apiUrl, environment.publicAnonKey);
   constructor() { }
@@ -101,7 +104,15 @@ async getRankingsForGame(juego: string): Promise<Ranking[]> {
     console.error('Error fetching rankings:', error.message);
     return [];
   }
-
   return data as Ranking[];
 }
+
+  async guardarEncuesta(encuesta: Encuesta) {
+    const { error } = await this.supabase.from(SURVEY_TABLE)
+    .insert(encuesta);
+    if (error) {
+      console.log("Error saving survey. ");
+      throw new Error(error.code + error.message);
+    }
+  }
 }

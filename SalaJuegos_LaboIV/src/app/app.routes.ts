@@ -6,6 +6,7 @@ import { QuienSoyComponent } from './components/quien-soy/quien-soy.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ChatComponent } from './components/chat/chat/chat.component';
 import { RankingsComponent } from './components/rankings/rankings.component';
+import { EncuestaComponent } from './encuesta/encuesta.component';
 
 
 export const routes: Routes = [
@@ -16,6 +17,7 @@ export const routes: Routes = [
     {path: "quien-soy", component: QuienSoyComponent},
     {path: "chat", component: ChatComponent},
     {path: "rankings", component: RankingsComponent},
+    {path: "encuesta", component: EncuestaComponent},
     {path: 'juegos',loadChildren: () => import('./modules/juegos/juegos.module').then(m => m.JuegosModule)},
     {path: "**", component: NotFoundComponent}
 ];

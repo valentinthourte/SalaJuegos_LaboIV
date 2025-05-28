@@ -1,0 +1,20 @@
+.container {
+    max-width: 600px;
+    padding: 60px;
+}
+
+.formulario div[class^="col-md-"] {
+    height: 90px;
+}
+
+.invalid {
+    color: red;
+}
+
+.contenedor {
+    border: 3px solid;
+    backdrop-filter: blur(2px);
+    background-color: rgba(155, 193, 188, 0.7);
+    border-radius: 10px;
+    padding: 25px;
+}
