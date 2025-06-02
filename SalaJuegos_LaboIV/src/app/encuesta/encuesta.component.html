@@ -1,31 +1,31 @@
-<div class="container justify-content-center align-items-center" style="height: 80vh;">
+<div class="container justify-content-center align-items-center" style="min-height: 80vh;">
   <form class="contenedor" [formGroup]="formulario" (ngSubmit)="onSubmit()">
     <div class="row">
-      <div class="col-md-12 mb-5">
+      <div class="col-12 mb-4">
         <h2 class="text-center">Encuesta de satisfacción</h2>
       </div>
     </div>
 
-    <div class="row formulario">
-      <div class="col-md-6 mb-3">
+    <div class="row g-3">
+      <div class="col-md-4">
         <label for="nombre" class="form-label fw-bold">Nombre</label>
         <input type="text" class="form-control" id="nombre" formControlName="nombre" placeholder="Ingrese nombre">
         <small class="invalid" *ngIf="formulario.get('nombre')?.touched && formulario.get('nombre')?.invalid">El nombre es requerido</small>
       </div>
 
-      <div class="col-md-6 mb-3">
+      <div class="col-md-4">
         <label for="apellido" class="form-label fw-bold">Apellido</label>
         <input type="text" class="form-control" id="apellido" formControlName="apellido" placeholder="Ingrese apellido">
         <small class="invalid" *ngIf="formulario.get('apellido')?.touched && formulario.get('apellido')?.invalid">El apellido es requerido</small>
       </div>
 
-      <div class="col-md-6 mb-3">
+      <div class="col-md-4">
         <label for="edad" class="form-label fw-bold">Edad</label>
         <input type="number" class="form-control" id="edad" formControlName="edad" placeholder="Ingrese edad">
         <small class="invalid" *ngIf="formulario.get('edad')?.touched && formulario.get('edad')?.invalid">La edad es requerida</small>
       </div>
 
-      <div class="col-md-6 mb-3">
+      <div class="col-md-6">
         <label for="sexo" class="form-label fw-bold">Sexo</label>
         <select class="form-select" id="sexo" formControlName="sexo">
           <option value="">Seleccione uno</option>
@@ -35,44 +35,58 @@
         <small class="invalid" *ngIf="formulario.get('sexo')?.touched && formulario.get('sexo')?.invalid">El sexo es requerido</small>
       </div>
 
-      <div class="col-md-12">
+      <div class="col-md-6">
         <label for="email" class="form-label fw-bold">Email</label>
         <input type="email" class="form-control" id="email" formControlName="email" placeholder="Ingrese email">
-        <small class="invalid" *ngIf="formulario.get('email')?.touched && formulario.get('email')?.invalid">
-          El email es requerido y debe ser válido
-        </small>
+        <small class="invalid" *ngIf="formulario.get('email')?.touched && formulario.get('email')?.invalid">Email inválido</small>
       </div>
 
-    <div class="col-md-12 mb-5">
-        <label for="email" class="form-label fw-bold">Opiniones</label>
-        <textarea type="text" class="form-control" id="email" formControlName="email" placeholder="Opiniones y comentarios" ></textarea>
-        <small class="invalid" *ngIf="formulario.get('email')?.touched && formulario.get('email')?.invalid">
-          Por favor, dejá una opinion :)
-        </small>
+      <div class="col-12">
+        <label for="opiniones" class="form-label fw-bold">Opiniones</label>
+        <textarea class="form-control" id="opiniones" formControlName="opiniones" placeholder="Opiniones y comentarios"></textarea>
+        <small class="invalid" *ngIf="formulario.get('opiniones')?.touched && formulario.get('opiniones')?.invalid">Por favor, dejá una opinión :)</small>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-md-12 mb-5">
-        <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="terminos" formControlName="terminos">
-          <label class="form-check-label fw-bold" for="terminos">
-            Aceptar términos y condiciones
-          </label>
-          <br>
-          <small class="invalid" *ngIf="formulario.get('terminos')?.touched && formulario.get('terminos')?.invalid">
-            Debe aceptar los términos
-          </small>
+      <div class="col-12 mt-4">
+        <label class="form-label fw-bold">¿Cuál fue tu juego favorito?</label>
+        <div class="d-grid" style="grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+          <div class="" *ngFor="let juego of juegos">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" [value]="juego" formControlName="juegoFavorito" [id]="juego">
+              <label class="form-check-label" [for]="juego" style="color: black;">{{ juego }}</label>
+            </div>
+          </div>
+        </div>
+        <small class="invalid" *ngIf="formulario.get('juegoFavorito')?.touched && formulario.get('juegoFavorito')?.invalid">Debe seleccionar un juego</small>
+      </div>
+
+      <div class="col-12 mt-3">
+        <label class="form-label fw-bold">¿Qué aspectos del juego te parecieron buenos?</label>
+        <div class="d-grid" style="grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+          <div *ngFor="let aspecto of aspectosJuego">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" [value]="aspecto" (change)="onCheckboxChange($event)" [id]="aspecto">
+              <label class="form-check-label" [for]="aspecto" style="color: black;">{{ aspecto }}</label>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-md-12 d-grid gap-2">
-        <button type="submit" class="btn btn-primary btn-block">
-          Aceptar
-        </button>
+
+      <div class="col-md-12 mb-3 mt-4">
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="terminos" formControlName="terminos">
+          <label class="form-check-label fw-bold" for="terminos">Aceptar términos y condiciones</label>
+        </div>
+        <small class="invalid" *ngIf="formulario.get('terminos')?.touched && formulario.get('terminos')?.invalid">Debe aceptar los términos</small>
       </div>
+
+      <div class="col-md-12 d-grid gap-2 mb-3">
+        <button type="submit" class="btn btn-primary btn-block">Aceptar</button>
+      </div>
+
       <div *ngIf="errorMsg != ''" class="d-flex justify-content-center align-items-center m-2">
-        <div class="d-flex cartel-error text-center justify-content-center align-items-center" style="width: 80%; min-height: 1vh;">
-            <p class="p-0">Se produjo un error al guardar la encuesta. {{ errorMsg }}</p>
+        <div class="d-flex cartel-error text-center justify-content-center align-items-center" style="width: 80%;">
+          <p class="p-0">Se produjo un error al guardar la encuesta. {{ errorMsg }}</p>
         </div>
       </div>
     </div>
