@@ -28,6 +28,7 @@ export class EncuestaComponent {
       email: ['', [Validators.required, Validators.email]],
       juegoFavorito: ['', Validators.required],
       aspectos: this.fb.array([], Validators.required),
+      probabilidadCompartir: [5, Validators.required],
       opiniones: ['']
     });
   }
@@ -58,7 +59,6 @@ export class EncuestaComponent {
       this.errorMsg = "";
       if (this.formulario.valid) {
         let encuesta: Encuesta = this.formulario.value as Encuesta;
-        debugger
         encuesta = this.completarModeloEncuesta(encuesta);
         console.log("Encuesta a enviar: " + JSON.stringify(encuesta));
         await this.encuestaService.enviarEncuesta(encuesta);

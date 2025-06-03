@@ -73,6 +73,23 @@
         </div>
       </div>
 
+      <div class="col-12 mt-3">
+        <label for="probabilidadCompartir" class="form-label fw-bold">
+          ¿Qué tan probable es que compartas esta página con otra persona?
+        </label>
+        <input
+          type="range"
+          class="form-range"
+          id="probabilidadCompartir"
+          formControlName="probabilidadCompartir"
+          min="1"
+          max="10"
+        />
+        <div class="text-center mt-1 fw-bold">
+          {{ formulario.get('probabilidadCompartir')?.value }}
+        </div>
+      </div>
+
       <div class="col-md-12 d-grid gap-2 mb-3">
         <button type="submit" class="btn btn-primary btn-block">Aceptar</button>
       </div>
