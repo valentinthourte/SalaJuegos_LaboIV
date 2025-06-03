@@ -107,6 +107,19 @@ async getRankingsForGame(juego: string): Promise<Ranking[]> {
   return data as Ranking[];
 }
 
+
+  async obtenerEncuestas() {
+    const { data, error } = await this.supabase
+    .from(SURVEY_TABLE)
+    .select('*');
+
+    if (error) {
+      console.error('Error fetching rankings:', error.message);
+      return [];
+    }
+    return data as Encuesta[];
+  }
+
   async guardarEncuesta(encuesta: Encuesta) {
     const { error } = await this.supabase.from(SURVEY_TABLE)
     .insert(encuesta);

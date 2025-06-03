@@ -4,5 +4,8 @@ export interface Encuesta {
   edad: number;
   sexo: string;
   email: string;
-  terminos: boolean;
+  juegoFavorito: string;
+  opiniones: string;
+  aspectos: string;
+  created_at: Date;
 }

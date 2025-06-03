@@ -1,0 +1,23 @@
+<div class="container mt-4">
+  <h2>Encuestas recibidas</h2>
+  <div *ngFor="let encuesta of encuestas; let i = index" class="card my-2">
+    <div class="card-header d-flex justify-content-between align-items-center"
+         (click)="toggleExpandir(i)" style="cursor: pointer;">
+      <div>
+        <strong>{{ encuesta.email }}</strong> — {{ encuesta.nombre }} {{ encuesta.apellido }}
+      </div>
+      <div>
+        <span [class]="encuestaExpandidaIndex === i ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></span>
+      </div>
+    </div>
+
+    <div class="card-body" *ngIf="encuestaExpandidaIndex === i">
+      <p><strong>Edad:</strong> {{ encuesta.edad }}</p>
+      <p><strong>Sexo:</strong> {{ encuesta.sexo }}</p>
+      <p><strong>Juego Favorito:</strong> {{ encuesta.juegoFavorito }}</p>
+      <p><strong>Opiniones:</strong> {{ encuesta.opiniones }}</p>
+      <p><strong>Aspectos a mejorar:</strong> {{ encuesta.aspectos }}</p>
+      <p><strong>Fecha de encuesta:</strong> {{ encuesta.created_at | date : "dd/MM/yyyy, h:mm a"  }}</p>
+    </div>
+  </div>
+</div>

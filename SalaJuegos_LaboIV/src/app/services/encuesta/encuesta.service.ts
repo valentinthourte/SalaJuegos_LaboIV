@@ -7,10 +7,15 @@ import { SupabaseService } from '../supabase/supabase.service';
 })
 export class EncuestaService {
 
+
   constructor(private supabaseService: SupabaseService) { }
 
   async enviarEncuesta(encuesta: Encuesta) {
     await this.supabaseService.guardarEncuesta(encuesta);
+  }
+
+  async obtenerEncuestas() {
+    return await this.supabaseService.obtenerEncuestas();
   }
 
 }

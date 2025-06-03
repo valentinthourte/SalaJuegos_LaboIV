@@ -16,37 +16,52 @@ export class EncuestaComponent {
   errorMsg: string = "";
   aspectosJuego = ['Visual', 'Diversión', 'Desafío', 'Interfaz'];
   selectedAspectos: string[] = [];
+  juegoFavorito: any;
 
   constructor(private fb: FormBuilder, private encuestaService: EncuestaService) {
     this.formulario = this.fb.group({
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
-      edad: ['', Validators.required],
+      edad: ['', [Validators.required, Validators.min(18), Validators.max(99)]],
       sexo: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       juegoFavorito: ['', Validators.required],
-      terminos: [false, Validators.requiredTrue],
       aspectos: this.fb.array([], Validators.required),
       opiniones: ['']
     });
   }
 
   onCheckboxChange(event: any) {
+    const formArray: FormArray = this.formulario.get('aspectos') as FormArray;
     const value = event.target.value;
+
     if (event.target.checked) {
-      this.selectedAspectos.push(value);
+      formArray.push(this.fb.control(value));
     } else {
-      this.selectedAspectos = this.selectedAspectos.filter(a => a !== value);
+      const index = formArray.controls.findIndex(ctrl => ctrl.value === value);
+      if (index >= 0) {
+        formArray.removeAt(index);
+      }
     }
+  }
+
+  onJuegoFavoritoChange(event: any) {
+    const value = event.target.value;
+    if (event.target.checked)
+      this.juegoFavorito = value;
   }
 
   async onSubmit() {
     try {
+      console.log("Comenzando envio de formulario");
       this.errorMsg = "";
       if (this.formulario.valid) {
-        const encuesta: Encuesta = this.formulario.value as Encuesta;
+        let encuesta: Encuesta = this.formulario.value as Encuesta;
+        encuesta = this.completarModeloEncuesta(encuesta);
+        console.log("Encuesta a enviar: " + JSON.stringify(encuesta));
         await this.encuestaService.enviarEncuesta(encuesta);
-        this.formulario.reset();
+        this.reiniciarFormulario();
+        console.log("Envio de formulario finalizado");
       } else {
         this.formulario.markAllAsTouched();
       }
@@ -55,4 +70,17 @@ export class EncuestaComponent {
       this.errorMsg = (error as Error).message;
     }
   }
+
+  completarModeloEncuesta(encuesta: Encuesta): Encuesta {
+    encuesta.aspectos = this.selectedAspectos.join(", ");
+    encuesta.juegoFavorito = this.juegoFavorito;
+    return encuesta;
+  }
+  reiniciarFormulario() {
+    const formArray: FormArray = this.formulario.get('aspectos') as FormArray;
+    formArray.clear();
+    this.formulario.reset();
+  }
 }
+
+

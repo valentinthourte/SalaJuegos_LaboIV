@@ -22,7 +22,7 @@
       <div class="col-md-4">
         <label for="edad" class="form-label fw-bold">Edad</label>
         <input type="number" class="form-control" id="edad" formControlName="edad" placeholder="Ingrese edad">
-        <small class="invalid" *ngIf="formulario.get('edad')?.touched && formulario.get('edad')?.invalid">La edad es requerida</small>
+        <small class="invalid" *ngIf="formulario.get('edad')?.touched && formulario.get('edad')?.invalid">Debe ingresar una edad entre 18 y 99 años</small>
       </div>
 
       <div class="col-md-6">
@@ -52,7 +52,7 @@
         <div class="d-grid" style="grid-template-columns: repeat(2, 1fr); gap: 1rem;">
           <div class="" *ngFor="let juego of juegos">
             <div class="form-check">
-              <input class="form-check-input" type="radio" [value]="juego" formControlName="juegoFavorito" [id]="juego">
+              <input class="form-check-input" type="radio" [value]="juego" (change)="onJuegoFavoritoChange($event)" formControlName="juegoFavorito" [id]="juego">
               <label class="form-check-label" [for]="juego" style="color: black;">{{ juego }}</label>
             </div>
           </div>
@@ -70,14 +70,6 @@
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="col-md-12 mb-3 mt-4">
-        <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="terminos" formControlName="terminos">
-          <label class="form-check-label fw-bold" for="terminos">Aceptar términos y condiciones</label>
-        </div>
-        <small class="invalid" *ngIf="formulario.get('terminos')?.touched && formulario.get('terminos')?.invalid">Debe aceptar los términos</small>
       </div>
 
       <div class="col-md-12 d-grid gap-2 mb-3">
