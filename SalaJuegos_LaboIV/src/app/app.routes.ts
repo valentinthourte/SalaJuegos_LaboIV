@@ -7,17 +7,20 @@ import { RegisterComponent } from './components/register/register.component';
 import { ChatComponent } from './components/chat/chat/chat.component';
 import { RankingsComponent } from './components/rankings/rankings.component';
 import { EncuestaComponent } from './encuesta/encuesta.component';
+import { VisualEncuestasComponent } from './components/visual-encuestas/visual-encuestas.component';
+import { authGuard } from './guards/auth.guard';
 
 
 export const routes: Routes = [
     {path: "", redirectTo: "/login", pathMatch:"full"},
     {path: "login", component: LoginComponent},
-    {path: "registrarse", component: RegisterComponent},
-    {path: "home", component: HomeComponent},
-    {path: "quien-soy", component: QuienSoyComponent},
-    {path: "chat", component: ChatComponent},
-    {path: "rankings", component: RankingsComponent},
-    {path: "encuesta", component: EncuestaComponent},
-    {path: 'juegos',loadChildren: () => import('./modules/juegos/juegos.module').then(m => m.JuegosModule)},
+    {path: "registrarse", component: RegisterComponent, canActivate: [authGuard]},
+    {path: "home", component: HomeComponent, canActivate: [authGuard]},
+    {path: "quien-soy", component: QuienSoyComponent, canActivate: [authGuard]},
+    {path: "chat", component: ChatComponent, canActivate: [authGuard]},
+    {path: "rankings", component: RankingsComponent, canActivate: [authGuard]},
+    {path: "encuesta", component: EncuestaComponent, canActivate: [authGuard]},
+    {path: "historialEncuestas", component: VisualEncuestasComponent, canActivate: [authGuard]},
+    {path: 'juegos',loadChildren: () => import('./modules/juegos/juegos.module').then(m => m.JuegosModule), canActivate: [authGuard]},
     {path: "**", component: NotFoundComponent}
 ];

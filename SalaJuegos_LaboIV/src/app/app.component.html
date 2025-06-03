@@ -7,6 +7,8 @@
         <button name="chat" (click)="onClickMenuOption($event)" class="btn btn-outline-primary">Chat</button>
         <button name="rankings" (click)="onClickMenuOption($event)" class="btn btn-outline-primary">Rankings</button>
         <button name="encuesta" (click)="onClickMenuOption($event)" class="btn btn-outline-primary">Encuesta</button>
+        <button name="historialEncuestas" (click)="onClickMenuOption($event)" class="btn btn-outline-primary">Historial de encuestas</button>
+        
         @if (this.isLoggedIn())
         {
           <button name="logout" (click)="onLogout()" class="btn btn-outline-danger">Log out</button>

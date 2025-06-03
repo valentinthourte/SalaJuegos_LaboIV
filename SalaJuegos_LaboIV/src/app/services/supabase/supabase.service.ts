@@ -111,7 +111,8 @@ async getRankingsForGame(juego: string): Promise<Ranking[]> {
   async obtenerEncuestas() {
     const { data, error } = await this.supabase
     .from(SURVEY_TABLE)
-    .select('*');
+    .select('*')
+    .order('created_at', {ascending: false});
 
     if (error) {
       console.error('Error fetching rankings:', error.message);

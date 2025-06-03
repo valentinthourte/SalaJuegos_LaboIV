@@ -3,10 +3,11 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EncuestaService } from '../services/encuesta/encuesta.service';
 import { Encuesta } from '../models/encuesta';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-encuesta',
-  imports: [FormsModule, CommonModule, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './encuesta.component.html',
   styleUrl: './encuesta.component.scss'
 })
@@ -57,6 +58,7 @@ export class EncuestaComponent {
       this.errorMsg = "";
       if (this.formulario.valid) {
         let encuesta: Encuesta = this.formulario.value as Encuesta;
+        debugger
         encuesta = this.completarModeloEncuesta(encuesta);
         console.log("Encuesta a enviar: " + JSON.stringify(encuesta));
         await this.encuestaService.enviarEncuesta(encuesta);
@@ -72,15 +74,23 @@ export class EncuestaComponent {
   }
 
   completarModeloEncuesta(encuesta: Encuesta): Encuesta {
-    encuesta.aspectos = this.selectedAspectos.join(", ");
-    encuesta.juegoFavorito = this.juegoFavorito;
+    const formArray: FormArray = this.formulario.get('aspectos') as FormArray;
+    encuesta.aspectos = formArray.value.join(", ");
     return encuesta;
   }
-  reiniciarFormulario() {
-    const formArray: FormArray = this.formulario.get('aspectos') as FormArray;
-    formArray.clear();
-    this.formulario.reset();
+
+reiniciarFormulario() {
+  const formArray: FormArray = this.formulario.get('aspectos') as FormArray;
+
+  while (formArray.length !== 0) {
+    formArray.removeAt(0);
   }
+
+  this.formulario.reset();
+
+  this.juegoFavorito = null;
+  this.selectedAspectos = [];
+}
 }
 
 
